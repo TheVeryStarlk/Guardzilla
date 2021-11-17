@@ -13,7 +13,7 @@ internal class Program
             .ConfigureAppConfiguration((context, config) =>
             {
                 var token = config.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false).Build().GetSection("token").Value;
+                .AddJsonFile("settings.json", false).Build().GetSection("token").Value;
 
                 context.Properties.Add("token", token);
             })
