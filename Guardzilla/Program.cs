@@ -10,12 +10,12 @@ internal class Program
     private static async Task Main()
     {
         var hostBuilder = new HostBuilder()
-            .ConfigureAppConfiguration((context, config) =>
+            .ConfigureAppConfiguration((context, configBuilder) =>
             {
-                var token = config.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("settings.json", false).Build().GetSection("token").Value;
+                configBuilder.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("settings.json", false);
 
-                context.Properties.Add("token", token);
+                var configRoot = configBuilder.Build();
+                context.Properties.Add("token", configRoot.GetSection("token").Value);
             })
             .ConfigureServices((context, services) =>
             {

@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
 using Microsoft.Extensions.Hosting;
 
 namespace Guardzilla;
@@ -21,6 +22,9 @@ internal class DiscordBot : IHostedService
             StringPrefixes = new[] { "#" },
         });
         commandsNext.RegisterCommands(Assembly.GetExecutingAssembly());
+
+        commandsNext.CommandErrored += (_, eventArgs) => eventArgs.Context.Message.CreateReactionAsync(DiscordEmoji.FromUnicode("⚠️"));
+        commandsNext.CommandExecuted += (_, eventArgs) => eventArgs.Context.Message.CreateReactionAsync(DiscordEmoji.FromUnicode("✅"));
 
         await discordClient.ConnectAsync();
     }
