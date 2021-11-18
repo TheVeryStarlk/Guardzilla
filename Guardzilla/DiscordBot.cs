@@ -19,7 +19,7 @@ internal class DiscordBot : IHostedService
     {
         var commandsNext = discordClient.UseCommandsNext(new CommandsNextConfiguration()
         {
-            StringPrefixes = new[] { "#" },
+            StringPrefixes = new[] { "$" },
         });
         commandsNext.RegisterCommands(Assembly.GetExecutingAssembly());
 
