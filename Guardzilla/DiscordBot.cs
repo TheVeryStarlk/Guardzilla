@@ -2,11 +2,10 @@
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
-using Microsoft.Extensions.Hosting;
 
 namespace Guardzilla;
 
-internal class DiscordBot : IHostedService
+public class DiscordBot : BackgroundService
 {
     private readonly DiscordClient discordClient;
 
@@ -15,7 +14,7 @@ internal class DiscordBot : IHostedService
         this.discordClient = discordClient;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var commandsNext = discordClient.UseCommandsNext(new CommandsNextConfiguration()
         {
@@ -29,7 +28,7 @@ internal class DiscordBot : IHostedService
         await discordClient.ConnectAsync();
     }
 
-    public async Task StopAsync(CancellationToken cancellationToken)
+    public override async Task StopAsync(CancellationToken cancellationToken)
     {
         await discordClient.DisconnectAsync();
     }
