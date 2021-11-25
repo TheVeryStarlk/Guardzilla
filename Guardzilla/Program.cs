@@ -1,16 +1,15 @@
 using DSharpPlus;
 using Guardzilla;
 
-var host = Host.CreateDefaultBuilder().ConfigureDefaults(args)
+var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         services.AddTransient(provider => new DiscordConfiguration()
         {
-            Token = (string)context.Configuration["DiscordBot:Token"],
-            TokenType = TokenType.Bot
+            Token = context.Configuration.GetValue<string>("DiscordBot:Token")
         });
 
-        services.AddTransient(provider => new DiscordClient(provider.GetRequiredService<DiscordConfiguration>()));
+        services.AddTransient<DiscordClient>();
 
         services.AddHostedService<DiscordBot>();
     })
